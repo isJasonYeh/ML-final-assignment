@@ -4,7 +4,7 @@ import os
 probability = 0.8
 #train資料佔的比例，valid為1-probability
 
-dir = '/root/ML-final-assignment/yolov4/stove_switch'
+dir = '/root/ML-final-assignment/yolov4/stove_switch/'
 
 fileList =[f for f in os.listdir(dir) if f.endswith('.jpg')]
 #使用os.listdir取得該目錄下的所有檔案名稱，並且用endswith()判斷後面的字(附檔名)，為True的才存到Tuple裡面
