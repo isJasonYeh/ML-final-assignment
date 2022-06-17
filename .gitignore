@@ -1,3 +1,7 @@
+# 忽略權重檔案(大小太大)
 yolov4.conv.137
 yolov4-tiny.conv.29
 *.weights
+
+# 忽略自動產生的資料夾
+.ipynb_checkpoints/
