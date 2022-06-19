@@ -16,10 +16,13 @@
 
     共有925張，經過專題組員手動標記，去除無法肉眼辨識的照片後，剩餘913張照片。
 
-以及經過YOLO模型的判斷結果，將上方圖片裁切出只有瓦斯爐開關的照片。
+以及經過YOLO模型的判斷結果，將上方圖片裁切出只有瓦斯爐開關的照片。(
+使用[crop_image.py](pre_CNN_images/crop_image.py))
 
     經YOLO模型裁切出1,054張，經過專題組員的標記後。
     其中標記為on的有580張，off的有417張，無法辨識的57張。
+
+使用[Classification.ipynb](pre_CNN_images/Classification.ipynb)讓專題組員能夠輸入自己要負責的範圍，進行手動分類的動作，完成後會生成與學號同名的tar檔。要訓練時將全部組員的tar檔解包後，就會能夠作為訓練使用。
 
 # 使用方法
 
@@ -38,7 +41,7 @@ CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下�
 
 ## 實驗環境
 
-使用[daisukekobayashi/darknet](https://hub.docker.com/r/daisukekobayashi/darknet)的image的Docker環境作為本次報告的訓練、測試環境。
+使用[daisukekobayashi/darknet](https://hub.docker.com/r/daisukekobayashi/darknet)這個image的Docker環境作為本次報告的訓練、測試環境。
 
 訊練過程中所使用的各項設定檔、訓練資料將會上傳至[這個Github](https://github.com/isJasonYeh/ML-final-assignment)。測試前從新的Docker環境clone Github的設定檔下來，確保每次測試環境是盡可能相同的。
 
@@ -68,7 +71,7 @@ CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下�
 
 ### batch數量
 
-雖然在[AlexeyABAB的Github](https://github.com/AlexeyAB/darknet)中，有說到batch=classes*2000,但不要少於6000。
+雖然在[AlexeyAB的Github](https://github.com/AlexeyAB/darknet)中，有說到batch=classes*2000,但不要少於6000。
 
 但在本次分類數量為1的情況下，YOLOv4在batch=2,000後，AP沒有明顯成長，甚至出現稍微下降的情況，但是loss有隨著訓練繼續下降。為了節省訓練時間，**本此報告選擇batch=4,000**。
 
@@ -87,7 +90,14 @@ CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下�
 三種情況的結果相差不大，valid集佔30%情況的AP稍微高於其他兩者，**本此報告選擇訓練集佔70%，驗證集佔30%**。
 
 ## CNN部分
-嘗試改變的參數有
+
+## 架構
+參考[Image classification | TensorFlow Tutorials](
+https://www.tensorflow.org/tutorials/images/classification)
+
+
+
+## 嘗試改變的參數有
 * batch數量
 * 訓練數量
 
