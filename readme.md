@@ -32,6 +32,7 @@
 
 使用[Classification.ipynb](pre_CNN_images/Classification.ipynb)讓專題組員能夠輸入自己要負責的範圍，進行手動分類的動作，完成後會生成與學號同名的tar檔。要訓練時將全部組員的tar檔解包後，就會能夠作為訓練使用。
 
+---
 # 使用方法
 
 使用的演算法：`YOLOv4`, `CNN`
@@ -45,6 +46,7 @@ YOLO是一套監督式的影像物件偵測模型，執行環境為Darknet框架
 
 CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下的一個分支，常運用在影像辨識上，也是上述YOLO的基礎之一。藉由卷積層擷取影像每個特徵的機率，並判斷出該影像各種分類的機率。
 
+---
 # 實驗設計
 
 ## 實驗環境
@@ -143,7 +145,7 @@ https://www.tensorflow.org/tutorials/images/classification)
 
 Dropout 1 --> 扁平層 --> Dropout 2 --> 全連接層
 ```
-
+---
 # 實驗結果與討論
 
 訓練完成兩個模型後，在[application.ipynb](application.ipynb)同時使用兩種模型：
@@ -184,10 +186,49 @@ else:
 以下分別是在有開啟開關、無開啟開關下，系統判斷的輸出。
 
 ![有開啟開關時的輸出](doc_Image/res_on.png "有開啟開關時的輸出")
+
 有開啟開關時系統的輸出。
 
 ![沒有開啟開關時的輸出](doc_Image/res_off.png "沒有開啟開關時的輸出")
 
-沒有開啟開關時系統的輸
+沒有開啟開關時系統的輸出。
 
+但是這套系統在特定角度、距離下，可能會造成CNN的分類失敗，因此還有進步空間。
+
+---
 # 附錄
+
+## 標準版YOLOv4與YOLOv4-tiny的比較：
+
+![YOLOv4](doc_Image/yolo/batch=4000_valid=0_2.png "YOLOv4")
+
+YOLOv4
+
+![YOLOv4-tiny](doc_Image/yolo/tiny_batch=4000_valid=0_2.png "YOLOv4-tiny")
+
+YOLOv4-tiny
+
+## batch=4,000與6,000的比較
+其實也可以單看batch=6,000的圖
+
+![batch=4,000](doc_Image/yolo/batch=4000_valid=0_2.png "batch=4,000")
+
+batch=4,000
+
+![batch=6,000](doc_Image/yolo/batch=6000_valid=0_2.png "batch=6,000")
+
+batch=6,000
+
+## 各種valid比例的比較
+
+![10%](doc_Image/yolo/batch=4000_valid=0_1.png "10%")
+
+10%
+
+![20%](doc_Image/yolo/batch=4000_valid=0_2.png "20%")
+
+20%
+
+![30%](doc_Image/yolo/batch=4000_valid=0_3.png "30%")
+
+30%
