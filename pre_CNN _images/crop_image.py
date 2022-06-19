@@ -55,7 +55,7 @@ for fileName in fileList:
         img = image.copy()
         img = crop_picture(img, bbox)
         fileNum += 1
-        name = "/root/ML-final-assignment/pre_CNN _images/switch_img/switch_%05d.jpg" % fileNum
+        name = "/root/ML-final-assignment/pre_CNN _images/switch_img/switch_%04d.jpg" % fileNum
         cv.imwrite(name, img)
         print(name, end="\r")
 print("count: " + str(fileNum))
