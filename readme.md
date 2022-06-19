@@ -100,13 +100,26 @@ https://www.tensorflow.org/tutorials/images/classification)
 資料增強 --> 正規化 --> 卷積層1 --> 池化層1 --> 卷積層2 --> 池化層2 --> 
 卷積層3 --> 池化層3 -->  Dropout --> 扁平層 --> 全連接層
 ```
-訓練情況為
 
 ![原始](Doc_Image/原始.png "原始")
 
+最剛開始的訓練情況
+
 可以觀察到有很嚴重的過擬和情形，因此嘗試在扁平層後方再加上一層Dropout
-![原始](Doc_Image/新增D.png "原始")
+
+![新增Dropout](Doc_Image/新增D.png "新增Dropout")
+
+再加上一層Dropout的訓練情況
+
 情況雖然有好轉，但過擬和情形還是很嚴重，就算提高數值也影響不大
+
+![提高Dropout](Doc_Image/提高D.png "提高Dropout")
+
+提高Dropout數值的訓練情況
+
+接著嘗試修改data_augmentation裡面的RandomRotation，有較明顯的改善了。
+
+![提高RandomRotation](Doc_Image/提高RandomRotation.png "提高RandomRotation")
 
 # 實驗結果與討論
 
