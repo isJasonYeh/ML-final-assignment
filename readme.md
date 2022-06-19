@@ -14,6 +14,8 @@
 
 與專題組員共同至IKEA，拍攝瓦斯爐各種狀態的照片。
 
+我們在開關上貼紅、藍有色貼紙，幫助攝影機辨識。
+
 ![YOLO訓練素材](doc_Image/yolo1.jpg "YOLO訓練素材")
 
 
@@ -71,7 +73,7 @@ CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下�
 | batch=4,000 | AP=86% |   AP=75%    |
 | batch=6,000 | AP=84% |   AP=78%    |
 
-各種訓練過程的圖形在[這個位置](doc_Image/yolo/)或下方目錄。
+各種訓練過程的圖形在[這個位置](doc_Image/yolo/)或下方附錄。
 
 ### YOLOv4與YOLOv4-tiny的選擇
 
@@ -131,7 +133,7 @@ https://www.tensorflow.org/tutorials/images/classification)
 
 最後在新增一層`RandomBrightness`，讓圖片會隨機改變亮度，這項操作對過擬合的改善很明顯，但也很明顯延長訓練時間(不確定使用方法是否正確)。
 
-![新增RandomBrightness](Doc_Image/CNN/新增RandomBrightness.png "andomBrightness")
+![新增RandomBrightness](doc_Image/CNN/新增RandomBrightness.png "andomBrightness")
 
 修改後的架構是
 ```
@@ -143,5 +145,49 @@ Dropout 1 --> 扁平層 --> Dropout 2 --> 全連接層
 ```
 
 # 實驗結果與討論
+
+訓練完成兩個模型後，在[application.ipynb](application.ipynb)同時使用兩種模型：
+先使用YOLO將圖片中的開關找出來，裁切後，交給CNN判斷是否有開的開關。
+```python=
+# 有開啟開關的圖片
+image = cv.imread("/root/ML-final-assignment/yolov4/stove_switch/GAS_032.jpg")
+
+# 沒有開啟開關的圖片
+#image = cv.imread("/root/ML-final-assignment/yolov4/stove_switch/GAS_003.jpg")
+
+show_img_jupyter(image)
+
+print("計算中...", end="\r")
+
+have_on_switch = False
+detections, width_ratio, height_ratio = image_detector(image, network_width, network_height)
+for label, confidence, bbox in detections:
+    img = image.copy()
+    img = crop_picture(img, bbox)
+    cv.imwrite("/root/ML-final-assignment/temp.png",img)
+    img = tf.keras.utils.load_img(
+        "/root/ML-final-assignment/temp.png", target_size=(img_height, img_width)
+    )
+    img_array = tf.keras.utils.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+    predictions = model.predict(img_array, verbose=0)
+    score = tf.nn.softmax(predictions[0])
+    os.remove(r"/root/ML-final-assignment/temp.png")
+    if cnn_class_names[np.argmax(score)] == "on":
+        have_on_switch = True
+        break
+if have_on_switch == True:
+    print("有未關閉的瓦斯爐開關")
+else:
+    print("所有的瓦斯爐開關已關閉")
+```
+以下分別是在有開啟開關、無開啟開關下，系統判斷的輸出。
+
+![有開啟開關時的輸出](doc_Image/res_on.png "有開啟開關時的輸出")
+有開啟開關時系統的輸出。
+
+![沒有開啟開關時的輸出](doc_Image/res_off.png "沒有開啟開關時的輸出")
+
+沒有開啟開關時系統的輸
 
 # 附錄
