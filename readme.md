@@ -131,7 +131,7 @@ https://www.tensorflow.org/tutorials/images/classification)
 
 最後在新增一層`RandomBrightness`，讓圖片會隨機改變亮度，這項操作對過擬合的改善很明顯，但也很明顯延長訓練時間(不確定使用方法是否正確)。
 
-![新增RandomBrightness](Doc_Image/新增RandomBrightness.png "andomBrightness")
+![新增RandomBrightness](Doc_Image/CNN/新增RandomBrightness.png "andomBrightness")
 
 修改後的架構是
 ```
