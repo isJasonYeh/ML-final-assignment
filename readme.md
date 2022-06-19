@@ -45,7 +45,7 @@ CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下�
 
 訊練過程中所使用的各項設定檔、訓練資料將會上傳至[這個Github](https://github.com/isJasonYeh/ML-final-assignment)。測試前從新的Docker環境clone Github的設定檔下來，確保每次測試環境是盡可能相同的。
 
-## YOLO部分
+## YOLO
 
 嘗試改變的參數、變因有
 * YOLOv4與YOLOv4-tiny的選擇
@@ -89,18 +89,24 @@ CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下�
 
 三種情況的結果相差不大，valid集佔30%情況的AP稍微高於其他兩者，**本此報告選擇訓練集佔70%，驗證集佔30%**。
 
-## CNN部分
-
-## 架構
+## CNN
 參考[Image classification | TensorFlow Tutorials](
 https://www.tensorflow.org/tutorials/images/classification)
 
+### 架構
 
+原始教材的架構是
+```
+資料增強 --> 正規化 --> 卷積層1 --> 池化層1 --> 卷積層2 --> 池化層2 --> 
+卷積層3 --> 池化層3 -->  Dropout --> 扁平層 --> 全連接層
+```
+訓練情況為
 
-## 嘗試改變的參數有
-* batch數量
-* 訓練數量
+![原始](DocImage/原始.png "原始")
 
+可以觀察到有很嚴重的過擬和情形，因此嘗試在扁平層後方再加上一層Dropout
+![原始](DocImage/新增D.png "原始")
+情況雖然有好轉，但過擬和情形還是很嚴重，就算提高數值也影響不大
 
 # 實驗結果與討論
 
