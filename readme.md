@@ -102,10 +102,10 @@ https://www.tensorflow.org/tutorials/images/classification)
 ```
 訓練情況為
 
-![原始](DocImage/原始.png "原始")
+![原始](Doc_Image/原始.png "原始")
 
 可以觀察到有很嚴重的過擬和情形，因此嘗試在扁平層後方再加上一層Dropout
-![原始](DocImage/新增D.png "原始")
+![原始](Doc_Image/新增D.png "原始")
 情況雖然有好轉，但過擬和情形還是很嚴重，就算提高數值也影響不大
 
 # 實驗結果與討論
