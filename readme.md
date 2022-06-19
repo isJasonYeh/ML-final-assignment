@@ -14,10 +14,16 @@
 
 與專題組員共同至IKEA，拍攝瓦斯爐各種狀態的照片。
 
+![YOLO訓練素材](doc_Image/yolo1.jpg "YOLO訓練素材")
+
+
     共有925張，經過專題組員手動標記，去除無法肉眼辨識的照片後，剩餘913張照片。
 
 以及經過YOLO模型的判斷結果，將上方圖片裁切出只有瓦斯爐開關的照片。(
 使用[crop_image.py](pre_CNN_images/crop_image.py))
+
+![CNN訓練素材 On](doc_Image/cnn_on.jpg "CNN訓練素材 On")
+![CNN訓練素材 Off](doc_Image/cnn_off.jpg "CNN訓練素材 Off")
 
     經YOLO模型裁切出1,054張，經過專題組員的標記後。
     其中標記為on的有580張，off的有417張，無法辨識的57張。
@@ -65,6 +71,8 @@ CNN(Convolutional Neural Networks，CNN) - 卷積神經網路是深度學習下�
 | batch=4,000 | AP=86% |   AP=75%    |
 | batch=6,000 | AP=84% |   AP=78%    |
 
+各種訓練過程的圖形在[這個位置](doc_Image/yolo/)或下方目錄。
+
 ### YOLOv4與YOLOv4-tiny的選擇
 
 由上方表格以及兩張圖，可以看出標準版YOLOv4的訓練時間與tiny有很大的差異，但AP也有很明顯的差異，**本次報告選用標準版YOLOv4**。
@@ -97,29 +105,43 @@ https://www.tensorflow.org/tutorials/images/classification)
 
 原始教材的架構是
 ```
-資料增強 --> 正規化 --> 卷積層1 --> 池化層1 --> 卷積層2 --> 池化層2 --> 
-卷積層3 --> 池化層3 -->  Dropout --> 扁平層 --> 全連接層
+隨機翻轉 --> 隨機旋轉 --> 隨機縮放 -->正規化 --> 卷積層1 --> 池化層1 --> 
+卷積層2 --> 池化層2 --> 卷積層3 --> 池化層3 -->  Dropout --> 扁平層 --> 全連接層
 ```
 
-![原始](Doc_Image/原始.png "原始")
+![原始](doc_Image/CNN/原始.png "原始")
 
 最剛開始的訓練情況
 
-可以觀察到有很嚴重的過擬和情形，因此嘗試在扁平層後方再加上一層Dropout
+可以觀察到有很嚴重的過擬和情形，因此嘗試在扁平層後方再加上一層`Dropout`
 
-![新增Dropout](Doc_Image/新增D.png "新增Dropout")
+![新增Dropout](doc_Image/CNN/新增D.png "新增Dropout")
 
 再加上一層Dropout的訓練情況
 
 情況雖然有好轉，但過擬和情形還是很嚴重，就算提高數值也影響不大
 
-![提高Dropout](Doc_Image/提高D.png "提高Dropout")
+![提高Dropout](doc_Image/CNN/提高D.png "提高Dropout")
 
 提高Dropout數值的訓練情況
 
-接著嘗試修改data_augmentation裡面的RandomRotation，有較明顯的改善了。
+接著嘗試修改data_augmentation裡面的`RandomRotation`，有較明顯的改善了。
 
-![提高RandomRotation](Doc_Image/提高RandomRotation.png "提高RandomRotation")
+![提高RandomRotation](doc_Image/CNN/提高RandomRotation.png "提高RandomRotation")
+
+最後在新增一層`RandomBrightness`，讓圖片會隨機改變亮度，這項操作對過擬合的改善很明顯，但也很明顯延長訓練時間(不確定使用方法是否正確)。
+
+![新增RandomBrightness](Doc_Image/新增RandomBrightness.png "andomBrightness")
+
+修改後的架構是
+```
+隨機翻轉 --> 隨機旋轉 --> 隨機縮放 --> 隨機曝光 -->正規化 --> 
+
+卷積層1 --> 池化層1 --> 卷積層2 --> 池化層2 --> 卷積層3 --> 池化層3 -->
+
+Dropout 1 --> 扁平層 --> Dropout 2 --> 全連接層
+```
 
 # 實驗結果與討論
 
+# 附錄
